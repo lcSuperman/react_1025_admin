@@ -11,14 +11,30 @@ import {Form, Icon, Input, Button, } from 'antd';
           <Form.Item>
             {getFieldDecorator('userName',
               {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
+              rules: [
+                { required: true, message: '请输入用户名!' },
+                {min:4,message: '用户名不能小于4个字，'},
+                {max:11,message: '用户名不能大于11个字，'},
+                {pattern:/^[a-zA-Z0-9]{4,11}$/,message: '必须是字母或者数字 '}
+                ],
+              })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
               )
             }
           </Form.Item>
           <Form.Item>
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
+            {getFieldDecorator('password',
+              {
+                rules: [
+                  { required: true, message: '请输入密码!' },
+                  {min:4,message: '密码不能小于4个数字，'},
+                  {max:16,message: '密码不能大于16个熟字，'},
+                  {pattern:/^[a-zA-Z0-9]{4,16}$/,message: '必须是字母或者数字 '}
+                ],
+              })(
+              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}  type="password" placeholder="密码" />
+            )
+            }
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
