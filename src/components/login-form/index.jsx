@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
 import {Form, Icon, Input, Button, message } from 'antd';
+import PropTypes from 'prop-types';
 import {reLogin}   from '../../api'
 
  class LoginForm extends Component {
-
+   static propTypes = {
+     login: PropTypes.func.isRequired
+   }
    HandleSubmit =e=>{
      const {validateFields, resetFields} = this.props.form;
      e.preventDefault();
      validateFields(async (error, values) =>{
-       console.log(error,values)
        if(!error){
          console.log(values)
-         const {userName,password} = values;
-       //  发送ajax请求
-         const result =await reLogin(userName,password);
-         console.log(result)
+         const {username,password} = values;
+         //调用父组件的login方法，由父组件发送请求去登陆
+         this.props.login(username, password);
+
 
        }else{
          resetFields(['userName','password'])
@@ -31,7 +33,7 @@ import {reLogin}   from '../../api'
     return (
         <Form className='formContent' onSubmit={this.HandleSubmit}>
           <Form.Item>
-            {getFieldDecorator('userName',
+            {getFieldDecorator('username',
               {
               rules: [
                 { required: true, message: '请输入用户名!' },
