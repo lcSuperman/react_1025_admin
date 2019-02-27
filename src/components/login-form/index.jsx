@@ -1,13 +1,35 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, } from 'antd';
+import {Form, Icon, Input, Button, message } from 'antd';
+import {reLogin}   from '../../api'
+
  class LoginForm extends Component {
 
+   HandleSubmit =e=>{
+     const {validateFields, resetFields} = this.props.form;
+     e.preventDefault();
+     validateFields(async (error, values) =>{
+       console.log(error,values)
+       if(!error){
+         console.log(values)
+         const {userName,password} = values;
+       //  发送ajax请求
+         const result =await reLogin(userName,password);
+         console.log(result)
 
+       }else{
+         resetFields(['userName','password'])
+         const errMsg = Object.values(error).reduce((prev, curr) => prev + curr.errors[0].message + ' ', '')
+         message.error(errMsg);
+
+       }
+
+     })
+   }
   render () {
 
     const { getFieldDecorator } = this.props.form;
     return (
-        <Form className='formContent'>
+        <Form className='formContent' onSubmit={this.HandleSubmit}>
           <Form.Item>
             {getFieldDecorator('userName',
               {
