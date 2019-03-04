@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Icon, Input, Button, message } from 'antd';
 import PropTypes from 'prop-types';
-import {reLogin}   from '../../api'
+
 
  class LoginForm extends Component {
    static propTypes = {

@@ -3,7 +3,8 @@ import logo from '../../assets/images/logo.png'
 
 import {reLogin} from '../../api'
 import './index.less'
-
+import {setItem} from '../../utills/storage'
+import Memoryutills from '../../utills/memoryutills'
 
 import LoginForm from '../../components/login-form'
 
@@ -16,11 +17,13 @@ export default class Login extends Component {
   login = async (username, password) => {
     //请求登陆
     const result = await reLogin(username, password);
-    console.log(result);
     if (result.status === 0) {
       //用户登陆成功
       //保存用户信息
-
+        setItem(result.data)
+        console.log(result.data);
+      //  在内存中保存信息
+       Memoryutills.user =result.data
       //跳转到admin页面
       this.props.history.replace('/');
     } else {
@@ -37,10 +40,10 @@ export default class Login extends Component {
     const height = errMsg? 30:0;
     return (
       <div className='login'>
-        <heder className='login-header'>
+        <header className='login-header'>
           <img src={logo} alt="logo"/>
           <h1>React项目: 后台管理系统</h1>
-        </heder>
+        </header>
         <section className='login-form'>
           <div className="login-err" style={{height}}>{errMsg}</div>
           <h2>用户登录</h2>
